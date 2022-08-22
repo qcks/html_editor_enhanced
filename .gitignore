@@ -1,7 +1,10 @@
 .DS_Store
 .dart_tool/
+.idea
+.metadata
 
 .packages
 .pub/
 
 build/
+example/
