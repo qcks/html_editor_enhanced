@@ -171,7 +171,7 @@ class InsertButtons extends Toolbar {
     if (audio) icons.add(Icon(Icons.audiotrack_outlined));
     if (video) icons.add(Icon(Icons.videocam_outlined));
     if (otherFile) icons.add(Icon(Icons.attach_file));
-    if (table) icons.add(Icon(Icons.table_chart_outlined));
+    if (table) icons.add(Icon(Icons.table_view));
     if (hr) icons.add(Icon(Icons.horizontal_rule));
     return icons;
   }
@@ -200,7 +200,7 @@ class OtherButtons extends Toolbar {
   List<Icon> getIcons1() {
     var icons = <Icon>[];
     if (fullscreen) icons.add(Icon(Icons.fullscreen));
-    if (codeview) icons.add(Icon(Icons.code));
+    if (codeview) icons.add(Icon(Icons.html));
     if (undo) icons.add(Icon(Icons.undo));
     if (redo) icons.add(Icon(Icons.redo));
     if (help) icons.add(Icon(Icons.help_outline));

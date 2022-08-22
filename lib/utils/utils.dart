@@ -491,6 +491,7 @@ class _DropdownRouteResult<T> {
 
 class _MenuLimits {
   const _MenuLimits(this.top, this.bottom, this.height, this.scrollOffset);
+
   final double top;
   final double bottom;
   final double height;
@@ -845,6 +846,7 @@ class _DropdownButtonState<T> extends State<CustomDropdownButton<T>>
   _DropdownRoute<T>? _dropdownRoute;
   Orientation? _lastOrientation;
   FocusNode? _internalNode;
+
   FocusNode? get focusNode => widget.focusNode ?? _internalNode;
   bool _hasPrimaryFocus = false;
   late Map<Type, Action<Intent>> _actionMap;
@@ -1181,18 +1183,26 @@ class _DropdownButtonState<T> extends State<CustomDropdownButton<T>>
       );
     }
 
-    return Semantics(
-      button: true,
-      child: Actions(
-        actions: _actionMap,
-        child: Focus(
-          canRequestFocus: _enabled,
-          focusNode: focusNode,
-          autofocus: widget.autofocus,
-          child: GestureDetector(
-            onTap: _enabled ? _handleTap : null,
-            behavior: HitTestBehavior.opaque,
-            child: result,
+    return Container(
+      decoration: BoxDecoration(
+        // color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(4.0)),
+        border: Border.all(width: 0.5, color: Colors.grey),
+      ),
+      padding: EdgeInsets.symmetric(horizontal: 5.0),
+      child: Semantics(
+        button: true,
+        child: Actions(
+          actions: _actionMap,
+          child: Focus(
+            canRequestFocus: _enabled,
+            focusNode: focusNode,
+            autofocus: widget.autofocus,
+            child: GestureDetector(
+              onTap: _enabled ? _handleTap : null,
+              behavior: HitTestBehavior.opaque,
+              child: result,
+            ),
           ),
         ),
       ),

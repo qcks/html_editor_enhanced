@@ -114,6 +114,9 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
       }
     }
     super.initState();
+    Future.delayed(Duration(milliseconds: 500), () {
+      widget.controller.setFullScreen();
+    });
   }
 
   void disable() {
@@ -388,45 +391,55 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
                     : widget.htmlToolbarOptions.toolbarItemHeight + 15,
               ),
               child: _isExpanded
-                  ? Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Wrap(
-                        runSpacing:
-                            widget.htmlToolbarOptions.gridViewVerticalSpacing,
-                        spacing:
-                            widget.htmlToolbarOptions.gridViewHorizontalSpacing,
-                        children: _buildChildren()
-                          ..insert(
-                              0,
-                              Container(
-                                height:
-                                    widget.htmlToolbarOptions.toolbarItemHeight,
-                                child: IconButton(
-                                  icon: Icon(
-                                    _isExpanded
-                                        ? Icons.expand_less
-                                        : Icons.expand_more,
-                                    color: Colors.grey,
-                                  ),
-                                  onPressed: () async {
-                                    setState(mounted, this.setState, () {
-                                      _isExpanded = !_isExpanded;
-                                    });
-                                    await Future.delayed(
-                                        Duration(milliseconds: 100));
-                                    if (kIsWeb) {
-                                      widget.controller.recalculateHeight();
-                                    } else {
-                                      await widget.controller.editorController!
-                                          .evaluateJavascript(
-                                              source:
-                                                  "var height = \$('div.note-editable').outerHeight(true); window.flutter_inappwebview.callHandler('setHeight', height);");
-                                    }
-                                  },
+                  ? Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 5, vertical: 1.6),
+                    child: Wrap(
+                      alignment: WrapAlignment.start,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      // spacing:
+                      //     widget.htmlToolbarOptions.gridViewHorizontalSpacing,
+                      // runSpacing:
+                      // widget.htmlToolbarOptions.gridViewVerticalSpacing,
+                      spacing: 0,
+                      runSpacing: 0,
+                      children: _buildChildren()
+                        ..insert(
+                            0,
+                            Container(
+                              height: widget
+                                  .htmlToolbarOptions.toolbarItemHeight,
+                              width: 36,
+                              child: InkWell(
+                                onTap: () async {
+                                  ///在这里展开
+                                  widget.controller.setFullScreen();
+                                  // updateStatus();
+                                  setState(mounted, this.setState, () {
+                                    _isExpanded = !_isExpanded;
+                                  });
+                                  await Future.delayed(
+                                      Duration(milliseconds: 100));
+                                  if (kIsWeb) {
+                                    widget.controller.recalculateHeight();
+                                  } else {
+                                    await widget
+                                        .controller.editorController!
+                                        .evaluateJavascript(
+                                            source:
+                                                "var height = \$('div.note-editable').outerHeight(true); window.flutter_inappwebview.callHandler('setHeight', height);");
+                                  }
+                                },
+                                child: Icon(
+                                  _isExpanded
+                                      ? Icons.expand_less
+                                      : Icons.expand_more,
+                                  color: Colors.grey,
                                 ),
-                              )),
-                      ),
-                    )
+                              ),
+                            )),
+                    ),
+                  )
                   : Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: CustomScrollView(
@@ -506,8 +519,7 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
               style: widget.htmlToolbarOptions.textStyle,
               items: [
                 CustomDropdownMenuItem(
-                    value: 'p',
-                    child: PointerInterceptor(child: Text('Normal'))),
+                    value: 'p', child: PointerInterceptor(child: Text('普通文本'))),
                 CustomDropdownMenuItem(
                     value: 'blockquote',
                     child: PointerInterceptor(
@@ -517,7 +529,7 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
                                   left: BorderSide(
                                       color: Colors.grey, width: 3.0))),
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child: Text('Quote',
+                          child: Text('引用',
                               style: TextStyle(
                                   fontFamily: 'times', color: Colors.grey))),
                     )),
@@ -528,50 +540,50 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
                               color: Colors.grey),
-                          padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child: Text('Code',
+                          padding: EdgeInsets.all(5),
+                          child: Text('代码',
                               style: TextStyle(
                                   fontFamily: 'courier', color: Colors.white))),
                     )),
                 CustomDropdownMenuItem(
                   value: 'h1',
                   child: PointerInterceptor(
-                      child: Text('Header 1',
+                      child: Text('一级标题',
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 32))),
                 ),
                 CustomDropdownMenuItem(
                   value: 'h2',
                   child: PointerInterceptor(
-                      child: Text('Header 2',
+                      child: Text('二级标题',
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 24))),
                 ),
                 CustomDropdownMenuItem(
                   value: 'h3',
                   child: PointerInterceptor(
-                      child: Text('Header 3',
+                      child: Text('三级标题',
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 18))),
                 ),
                 CustomDropdownMenuItem(
                   value: 'h4',
                   child: PointerInterceptor(
-                      child: Text('Header 4',
+                      child: Text('四级标题',
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16))),
                 ),
                 CustomDropdownMenuItem(
                   value: 'h5',
                   child: PointerInterceptor(
-                      child: Text('Header 5',
+                      child: Text('五级标题',
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 13))),
                 ),
                 CustomDropdownMenuItem(
                   value: 'h6',
                   child: PointerInterceptor(
-                      child: Text('Header 6',
+                      child: Text('六级标题',
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 11))),
                 ),
@@ -1043,17 +1055,28 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
           renderBorder: widget.htmlToolbarOptions.renderBorder,
           textStyle: widget.htmlToolbarOptions.textStyle,
           onPressed: (int index) async {
-            void updateStatus() {
+            void updateStatus(Color? color) {
               setState(mounted, this.setState, () {
                 _colorSelected[index] = !_colorSelected[index];
+                if (color != null &&
+                    t.getIcons()[index].icon == Icons.format_color_text) {
+                  _foreColorSelected = color;
+                }
+                if (color != null &&
+                    t.getIcons()[index].icon == Icons.format_color_fill) {
+                  _backColorSelected = color;
+                }
               });
             }
 
             if (_colorSelected[index]) {
               if (t.getIcons()[index].icon == Icons.format_color_text) {
                 var proceed = await widget.htmlToolbarOptions.onButtonPressed
-                        ?.call(ButtonType.foregroundColor,
-                            _colorSelected[index], updateStatus) ??
+                        ?.call(
+                            ButtonType.foregroundColor, _colorSelected[index],
+                            () {
+                      updateStatus.call(null);
+                    }) ??
                     true;
                 if (proceed) {
                   widget.controller.execCommand('foreColor',
@@ -1061,13 +1084,15 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
                           .toRadixString(16)
                           .padLeft(6, '0')
                           .toUpperCase());
-                  updateStatus();
+                  updateStatus(null);
                 }
               }
               if (t.getIcons()[index].icon == Icons.format_color_fill) {
                 var proceed = await widget.htmlToolbarOptions.onButtonPressed
                         ?.call(ButtonType.highlightColor, _colorSelected[index],
-                            updateStatus) ??
+                            () {
+                      updateStatus.call(null);
+                    }) ??
                     true;
                 if (proceed) {
                   widget.controller.execCommand('hiliteColor',
@@ -1075,22 +1100,22 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
                           .toRadixString(16)
                           .padLeft(6, '0')
                           .toUpperCase());
-                  updateStatus();
+                  updateStatus(null);
                 }
               }
             } else {
               var proceed = true;
               if (t.getIcons()[index].icon == Icons.format_color_text) {
                 proceed = await widget.htmlToolbarOptions.onButtonPressed?.call(
-                        ButtonType.foregroundColor,
-                        _colorSelected[index],
-                        updateStatus) ??
+                        ButtonType.foregroundColor, _colorSelected[index], () {
+                      updateStatus.call(null);
+                    }) ??
                     true;
               } else if (t.getIcons()[index].icon == Icons.format_color_fill) {
                 proceed = await widget.htmlToolbarOptions.onButtonPressed?.call(
-                        ButtonType.highlightColor,
-                        _colorSelected[index],
-                        updateStatus) ??
+                        ButtonType.highlightColor, _colorSelected[index], () {
+                      updateStatus.call(null);
+                    }) ??
                     true;
               }
               if (proceed) {
@@ -1331,7 +1356,7 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
                     child: PointerInterceptor(child: Text('■ Square')),
                   ),
                 ],
-                hint: Text('Select list style'),
+                hint: Text('选择列表样式'),
                 value: _listStyleSelectedItem,
                 onChanged: (String? changed) async {
                   void updateSelectedItem(dynamic changed) {
@@ -2503,7 +2528,7 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
                     });
               }
             }
-            if (t.getIcons()[index].icon == Icons.table_chart_outlined) {
+            if (t.getIcons()[index].icon == Icons.table_view) {
               var proceed = await widget.htmlToolbarOptions.onButtonPressed
                       ?.call(ButtonType.table, null, null) ??
                   true;
@@ -2620,7 +2645,7 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
                   updateStatus();
                 }
               }
-              if (t.getIcons1()[index].icon == Icons.code) {
+              if (t.getIcons1()[index].icon == Icons.html) {
                 var proceed = await widget.htmlToolbarOptions.onButtonPressed
                         ?.call(ButtonType.codeview, _miscSelected[index],
                             updateStatus) ??

@@ -121,14 +121,22 @@ class _HtmlEditorWidgetMobileState extends State<HtmlEditorWidget> {
           height: docHeight + 10,
           decoration: widget.otherOptions.decoration,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               widget.htmlToolbarOptions.toolbarPosition ==
                       ToolbarPosition.aboveEditor
-                  ? ToolbarWidget(
-                      key: toolbarKey,
-                      controller: widget.controller,
-                      htmlToolbarOptions: widget.htmlToolbarOptions,
-                      callbacks: widget.callbacks)
+                  ? GestureDetector(
+                      onVerticalDragUpdate: (d) {},
+                      onVerticalDragStart: (d) {},
+                      onVerticalDragDown: (d) {},
+                      onVerticalDragCancel: () {},
+                      behavior: HitTestBehavior.opaque,
+                      child: ToolbarWidget(
+                          key: toolbarKey,
+                          controller: widget.controller,
+                          htmlToolbarOptions: widget.htmlToolbarOptions,
+                          callbacks: widget.callbacks),
+                    )
                   : Container(height: 0, width: 0),
               Expanded(
                 child: InAppWebView(
@@ -508,7 +516,8 @@ class _HtmlEditorWidgetMobileState extends State<HtmlEditorWidget> {
                                 keyCode.first as int;
                           });
                       //disable editor if necessary
-                      if (widget.htmlEditorOptions.disabled && !callbacksInitialized) {
+                      if (widget.htmlEditorOptions.disabled &&
+                          !callbacksInitialized) {
                         widget.controller.disable();
                       }
                       //initialize callbacks
@@ -544,11 +553,18 @@ class _HtmlEditorWidgetMobileState extends State<HtmlEditorWidget> {
               ),
               widget.htmlToolbarOptions.toolbarPosition ==
                       ToolbarPosition.belowEditor
-                  ? ToolbarWidget(
-                      key: toolbarKey,
-                      controller: widget.controller,
-                      htmlToolbarOptions: widget.htmlToolbarOptions,
-                      callbacks: widget.callbacks)
+                  ? GestureDetector(
+                      onVerticalDragUpdate: (d) {},
+                      onVerticalDragStart: (d) {},
+                      onVerticalDragDown: (d) {},
+                      onVerticalDragCancel: () {},
+                      behavior: HitTestBehavior.opaque,
+                      child: ToolbarWidget(
+                          key: toolbarKey,
+                          controller: widget.controller,
+                          htmlToolbarOptions: widget.htmlToolbarOptions,
+                          callbacks: widget.callbacks),
+                    )
                   : Container(height: 0, width: 0),
             ],
           ),
