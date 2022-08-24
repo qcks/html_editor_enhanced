@@ -102,7 +102,7 @@ class _HtmlEditorExampleState extends State<HtmlEditorExample> {
                 child: HtmlEditor(
                   controller: controller,
                   htmlEditorOptions: HtmlEditorOptions(
-                    hint: 'Your text here...',
+                    hint: '请输入正文',
                     shouldEnsureVisible: true,
                     initialText: '',
                   ),
@@ -133,6 +133,7 @@ class _HtmlEditorExampleState extends State<HtmlEditorExample> {
                     },
                     mediaUploadInterceptor:
                         (PlatformFile file, InsertFileType type) async {
+                      print("@mediaUploadInterceptor=${file.path}");
                       print(file.name); //filename
                       print(file.size); //size in bytes
                       print(file.extension); //file extension (eg jpeg or mp4)
@@ -158,9 +159,10 @@ class _HtmlEditorExampleState extends State<HtmlEditorExample> {
                         audio: false,
                         // table: false,
                         // hr: false,
-                        // otherFile: false,
+                        // otherFile: !false,
                       ),
                       OtherButtons(
+                        codeview: false,
                         fullscreen: false,
                         help: false,
                       ),
