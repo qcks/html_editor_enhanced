@@ -116,6 +116,7 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
     super.initState();
     Future.delayed(Duration(milliseconds: 500), () {
       widget.controller.setFullScreen();
+      widget.controller.setFocus();
     });
   }
 
@@ -392,54 +393,53 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
               ),
               child: _isExpanded
                   ? Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 5, vertical: 1.6),
-                    child: Wrap(
-                      alignment: WrapAlignment.start,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      // spacing:
-                      //     widget.htmlToolbarOptions.gridViewHorizontalSpacing,
-                      // runSpacing:
-                      // widget.htmlToolbarOptions.gridViewVerticalSpacing,
-                      spacing: 0,
-                      runSpacing: 0,
-                      children: _buildChildren()
-                        ..insert(
-                            0,
-                            Container(
-                              height: widget
-                                  .htmlToolbarOptions.toolbarItemHeight,
-                              width: 36,
-                              child: InkWell(
-                                onTap: () async {
-                                  ///在这里展开
-                                  widget.controller.setFullScreen();
-                                  // updateStatus();
-                                  setState(mounted, this.setState, () {
-                                    _isExpanded = !_isExpanded;
-                                  });
-                                  await Future.delayed(
-                                      Duration(milliseconds: 100));
-                                  if (kIsWeb) {
-                                    widget.controller.recalculateHeight();
-                                  } else {
-                                    await widget
-                                        .controller.editorController!
-                                        .evaluateJavascript(
-                                            source:
-                                                "var height = \$('div.note-editable').outerHeight(true); window.flutter_inappwebview.callHandler('setHeight', height);");
-                                  }
-                                },
-                                child: Icon(
-                                  _isExpanded
-                                      ? Icons.expand_less
-                                      : Icons.expand_more,
-                                  color: Colors.grey,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 5, vertical: 1.6),
+                      child: Wrap(
+                        alignment: WrapAlignment.start,
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        // spacing:
+                        //     widget.htmlToolbarOptions.gridViewHorizontalSpacing,
+                        // runSpacing:
+                        // widget.htmlToolbarOptions.gridViewVerticalSpacing,
+                        spacing: 0,
+                        runSpacing: 0,
+                        children: _buildChildren()
+                          ..insert(
+                              0,
+                              Container(
+                                height:
+                                    widget.htmlToolbarOptions.toolbarItemHeight,
+                                width: 36,
+                                child: InkWell(
+                                  onTap: () async {
+                                    ///在这里展开
+                                    widget.controller.setFullScreen();
+                                    // updateStatus();
+                                    setState(mounted, this.setState, () {
+                                      _isExpanded = !_isExpanded;
+                                    });
+                                    await Future.delayed(
+                                        Duration(milliseconds: 100));
+                                    if (kIsWeb) {
+                                      widget.controller.recalculateHeight();
+                                    } else {
+                                      await widget.controller.editorController!
+                                          .evaluateJavascript(
+                                              source:
+                                                  "var height = \$('div.note-editable').outerHeight(true); window.flutter_inappwebview.callHandler('setHeight', height);");
+                                    }
+                                  },
+                                  child: Icon(
+                                    _isExpanded
+                                        ? Icons.expand_less
+                                        : Icons.expand_more,
+                                    color: Colors.grey,
+                                  ),
                                 ),
-                              ),
-                            )),
-                    ),
-                  )
+                              )),
+                      ),
+                    )
                   : Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: CustomScrollView(
@@ -1325,35 +1325,35 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
                 items: [
                   CustomDropdownMenuItem(
                     value: 'decimal',
-                    child: PointerInterceptor(child: Text('1. Numbered')),
+                    child: PointerInterceptor(child: Text('1. 数字')),
                   ),
                   CustomDropdownMenuItem(
                     value: 'lower-alpha',
-                    child: PointerInterceptor(child: Text('a. Lower Alpha')),
+                    child: PointerInterceptor(child: Text('a. 小写字母')),
                   ),
                   CustomDropdownMenuItem(
                     value: 'upper-alpha',
-                    child: PointerInterceptor(child: Text('A. Upper Alpha')),
+                    child: PointerInterceptor(child: Text('A. 大写字母')),
                   ),
                   CustomDropdownMenuItem(
                     value: 'lower-roman',
-                    child: PointerInterceptor(child: Text('i. Lower Roman')),
+                    child: PointerInterceptor(child: Text('i. 罗马数小写')),
                   ),
                   CustomDropdownMenuItem(
                     value: 'upper-roman',
-                    child: PointerInterceptor(child: Text('I. Upper Roman')),
+                    child: PointerInterceptor(child: Text('I. 罗马数大写')),
                   ),
                   CustomDropdownMenuItem(
                     value: 'disc',
-                    child: PointerInterceptor(child: Text('• Disc')),
+                    child: PointerInterceptor(child: Text('• 点')),
                   ),
                   CustomDropdownMenuItem(
                     value: 'circle',
-                    child: PointerInterceptor(child: Text('○ Circle')),
+                    child: PointerInterceptor(child: Text('○ 圆')),
                   ),
                   CustomDropdownMenuItem(
                     value: 'square',
-                    child: PointerInterceptor(child: Text('■ Square')),
+                    child: PointerInterceptor(child: Text('■ 方块')),
                   ),
                 ],
                 hint: Text('选择列表样式'),
