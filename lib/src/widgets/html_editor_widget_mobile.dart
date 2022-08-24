@@ -65,6 +65,7 @@ class _HtmlEditorWidgetMobileState extends State<HtmlEditorWidget> {
   /// Variable to cache the viewable size of the editor to update it in case
   /// the editor is focused much after its visibility changes
   double? cachedVisibleDecimal;
+  bool showToolbar = false;
 
   @override
   void initState() {
@@ -124,7 +125,8 @@ class _HtmlEditorWidgetMobileState extends State<HtmlEditorWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               widget.htmlToolbarOptions.toolbarPosition ==
-                      ToolbarPosition.aboveEditor
+                          ToolbarPosition.aboveEditor &&
+                      showToolbar
                   ? GestureDetector(
                       onVerticalDragUpdate: (d) {},
                       onVerticalDragStart: (d) {},
@@ -146,12 +148,13 @@ class _HtmlEditorWidgetMobileState extends State<HtmlEditorWidget> {
                     controller.addJavaScriptHandler(
                         handlerName: 'FormatSettings',
                         callback: (e) {
-                          var json = e[0] as Map<String, dynamic>;
-                          print(json);
+                          var jsonMap = e[0] as Map<String, dynamic>;
+                          print("jsonMap=$jsonMap");
                           if (widget.controller.toolbar != null) {
-                            widget.controller.toolbar!.updateToolbar(json);
+                            widget.controller.toolbar!.updateToolbar(jsonMap);
                           }
                         });
+                    controller.requestFocusNodeHref();
                   },
                   initialOptions: InAppWebViewGroupOptions(
                       crossPlatform: InAppWebViewOptions(
@@ -189,6 +192,7 @@ class _HtmlEditorWidgetMobileState extends State<HtmlEditorWidget> {
                     print(message.message);
                   },
                   onWindowFocus: (controller) async {
+                    // print("设置jd${controller.}");
                     if (widget.htmlEditorOptions.shouldEnsureVisible &&
                         Scrollable.of(context) != null) {
                       await Scrollable.of(context)!.position.ensureVisible(
@@ -483,7 +487,7 @@ class _HtmlEditorWidgetMobileState extends State<HtmlEditorWidget> {
                               if (height.first == 'reset') {
                                 resetHeight();
                               } else {
-                                setState(mounted, this.setState, () {
+                                SBsetState(mounted, this.setState, () {
                                   docHeight = (double.tryParse(
                                               height.first.toString()) ??
                                           widget.otherOptions.height) +
@@ -703,6 +707,9 @@ class _HtmlEditorWidgetMobileState extends State<HtmlEditorWidget> {
       widget.controller.editorController!.addJavaScriptHandler(
           handlerName: 'onFocus',
           callback: (_) {
+            setState(() {
+              showToolbar = true;
+            });
             c.onFocus!.call();
           });
     }
@@ -710,6 +717,9 @@ class _HtmlEditorWidgetMobileState extends State<HtmlEditorWidget> {
       widget.controller.editorController!.addJavaScriptHandler(
           handlerName: 'onBlur',
           callback: (_) {
+            setState(() {
+              showToolbar = false;
+            });
             c.onBlur!.call();
           });
     }
