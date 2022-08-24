@@ -1136,19 +1136,33 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
                             onColorChanged: (color) {
                               newColor = color;
                             },
-                            title: Text('Choose a Color',
+                            title: Text('选择颜色',
                                 style: Theme.of(context).textTheme.headline6),
-                            width: 40,
-                            height: 40,
-                            spacing: 0,
-                            runSpacing: 0,
-                            borderRadius: 0,
+                            width: 35,
+                            height: 35,
+                            spacing: 5,
+                            runSpacing: 7,
+                            borderRadius: 35,
                             wheelDiameter: 165,
                             enableOpacity: false,
                             showColorCode: true,
+                            // hasBorder: true,
+                            elevation: 3,
                             colorCodeHasColor: true,
                             pickersEnabled: <ColorPickerType, bool>{
                               ColorPickerType.wheel: true,
+                            },
+                            pickerTypeLabels: {
+                              ColorPickerType.primary: "基本色",
+                              ColorPickerType.accent: "强调色",
+                              ColorPickerType.wheel: "自定义",
+
+                              ///  * [ColorPickerType.both] : 'Both'
+                              ///  * [ColorPickerType.primary] : 'Primary & Accent'
+                              ///  * [ColorPickerType.accent] : 'Primary'
+                              ///  * [ColorPickerType.bw] : 'Black & White'
+                              ///  * [ColorPickerType.custom] : 'Custom'
+                              ///  * [ColorPickerType.wheel] : 'Wheel'
                             },
                             copyPasteBehavior:
                                 const ColorPickerCopyPasteBehavior(
@@ -1163,7 +1177,7 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
-                              child: Text('Cancel'),
+                              child: Text('取消'),
                             ),
                             TextButton(
                                 onPressed: () {
@@ -1191,7 +1205,7 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
                                   }
                                   Navigator.of(context).pop();
                                 },
-                                child: Text('Reset to default color')),
+                                child: Text('重置为默认颜色')),
                             TextButton(
                               onPressed: () {
                                 if (t.getIcons()[index].icon ==
@@ -1222,7 +1236,7 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
                                 });
                                 Navigator.of(context).pop();
                               },
-                              child: Text('Set color'),
+                              child: Text('设置颜色'),
                             )
                           ],
                         ),
@@ -1814,7 +1828,7 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
                         child: StatefulBuilder(builder:
                             (BuildContext context, StateSetter setState) {
                           return AlertDialog(
-                            title: Text('Insert Link'),
+                            title: Text('插入链接'),
                             scrollable: true,
                             content: Form(
                               key: formKey,
@@ -1822,7 +1836,7 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
                                   mainAxisSize: MainAxisSize.min,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('Text to display',
+                                    Text('要显示的文本',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold)),
                                     SizedBox(height: 10),
@@ -1832,14 +1846,14 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
                                       textInputAction: TextInputAction.next,
                                       decoration: InputDecoration(
                                         border: OutlineInputBorder(),
-                                        hintText: 'Text',
+                                        hintText: '链接标题',
                                       ),
                                       onSubmitted: (_) {
                                         urlFocus.requestFocus();
                                       },
                                     ),
                                     SizedBox(height: 20),
-                                    Text('URL',
+                                    Text('网址',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold)),
                                     SizedBox(height: 10),
@@ -1849,11 +1863,11 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
                                       textInputAction: TextInputAction.done,
                                       decoration: InputDecoration(
                                         border: OutlineInputBorder(),
-                                        hintText: 'URL',
+                                        hintText: '网址地址',
                                       ),
                                       validator: (String? value) {
                                         if (value == null || value.isEmpty) {
-                                          return 'Please enter a URL!';
+                                          return '请输入网址！';
                                         }
                                         return null;
                                       },
@@ -1885,7 +1899,7 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
                                               openNewTab = !openNewTab;
                                             });
                                           },
-                                          child: Text('Open in new window',
+                                          child: Text('在新窗口中打开',
                                               style: TextStyle(
                                                   color: Theme.of(context)
                                                       .textTheme
@@ -1901,7 +1915,7 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
-                                child: Text('Cancel'),
+                                child: Text('取消'),
                               ),
                               TextButton(
                                 onPressed: () async {
@@ -1928,7 +1942,7 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
                                     Navigator.of(context).pop();
                                   }
                                 },
-                                child: Text('OK'),
+                                child: Text('确定'),
                               )
                             ],
                           );
@@ -1947,6 +1961,14 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
                 final urlFocus = FocusNode();
                 FilePickerResult? result;
                 String? validateFailed;
+                var f = widget.htmlToolbarOptions.onMyImageLinkInsert;
+                if (f != null) {
+                  var link = await f.call();
+                  widget.controller.insertNetworkImage(
+                    link,
+                  );
+                  return;
+                }
                 await showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -1954,7 +1976,7 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
                         child: StatefulBuilder(builder:
                             (BuildContext context, StateSetter setState) {
                           return AlertDialog(
-                            title: Text('Insert Image'),
+                            title: Text('插入图片'),
                             scrollable: true,
                             content: Column(
                                 mainAxisSize: MainAxisSize.min,

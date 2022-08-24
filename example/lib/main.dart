@@ -111,6 +111,25 @@ class _HtmlEditorExampleState extends State<HtmlEditorExample> {
                     // toolbarPosition: ToolbarPosition.belowEditor,
                     //by default
                     // toolbarType: ToolbarType.nativeScrollable,
+                    onMyImageLinkInsert: () async {
+                      var link = await showDialog<String>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text("图片"),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop(
+                                        'https://img.bosszhipin.com/beijin/boss/avatar/hSg_mbK8EA~~.jpg?x-oss-process=image/format,jpg');
+                                  },
+                                  child: Text('插入'),
+                                ),
+                              ],
+                            );
+                          });
+                      return link!;
+                    },
                     toolbarType: ToolbarType.nativeExpandable,
                     // toolbarType: ToolbarType.nativeGrid,
                     //by default

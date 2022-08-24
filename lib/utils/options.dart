@@ -179,6 +179,7 @@ class HtmlToolbarOptions {
     this.toolbarItemHeight = 36,
     this.gridViewHorizontalSpacing = 5,
     this.gridViewVerticalSpacing = 5,
+    this.onMyImageLinkInsert,
   });
 
   /// Allows you to set the allowed extensions when a user inserts an audio file
@@ -394,6 +395,8 @@ class HtmlToolbarOptions {
   final Color? buttonSelectedBorderColor;
   final BorderRadius? buttonBorderRadius;
   final double? buttonBorderWidth;
+  ///
+  final Future<String> Function()? onMyImageLinkInsert;
 }
 
 /// Other options such as the height of the widget and the decoration surrounding it
