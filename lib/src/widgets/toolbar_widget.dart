@@ -115,8 +115,8 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
     }
     super.initState();
     Future.delayed(Duration(milliseconds: 500), () {
-      widget.controller.setFullScreen();
-      widget.controller.setFocus();
+      // widget.controller.setFullScreen();
+      // widget.controller.setFocus();
       // widget.callbacks?.onMouseDown?.call();
       // widget.callbacks?.onMouseUp?.call();
     });

@@ -94,9 +94,11 @@ class _HtmlEditorWidgetMobileState extends State<HtmlEditorWidget> {
       this.setState(() {
         docHeight = widget.otherOptions.height;
       });
-      await widget.controller.editorController!.evaluateJavascript(
-          source:
-              "\$('div.note-editable').outerHeight(${widget.otherOptions.height - (toolbarKey.currentContext?.size?.height ?? 0)});");
+      var webH = widget.otherOptions.height -
+          (toolbarKey.currentContext?.size?.height ?? 0);
+      // print('webH=$webH docHeight=$docHeight');
+      await widget.controller.editorController?.evaluateJavascript(
+          source: "\$('div.note-editable').outerHeight(${webH});");
     }
   }
 
@@ -509,6 +511,9 @@ class _HtmlEditorWidgetMobileState extends State<HtmlEditorWidget> {
                             .listen((bool visible) {
                           if (!visible && mounted) {
                             controller.clearFocus();
+                            resetHeight();
+                          } else {
+                            print('键盘打开');
                             resetHeight();
                           }
                         });
