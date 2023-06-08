@@ -14,14 +14,12 @@ dependencies:
   # webview plugin
   flutter_inappwebview: ^5.3.2
   # plugin to get webview's visible fraction for keyboard height adjustment
-  visibility_detector: ^0.2.2
   # plugin to get when the keyboard is hidden via back (Android)
   # or "done" (iOS) to reset the editor's height
   flutter_keyboard_visibility: ^5.1.0
   # plugin to show a color picker for foreground/highlight color
   flex_color_picker: ^2.1.2
   # plugin to get files from filesystem
-  file_picker: ^4.2.0
   # plugin to show a scrollable number picker for inserting tables
   numberpicker: ^2.1.1
   # plugin to allow dropdowns and dialogs to be interactable when displaying over the editor
@@ -32,6 +30,8 @@ dependencies:
   # plugin for @internal annotation
   meta: '>=1.0.0 <2.0.0'
 
+  file_picker: 5.0.0
+  visibility_detector: ^0.3.3
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -41,19 +41,20 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-
   assets:
-    - packages/html_editor_enhanced/summernote.html
-    - packages/html_editor_enhanced/summernote-no-plugins.html
-    - packages/html_editor_enhanced/summernote-lite.min.css
-    - packages/html_editor_enhanced/summernote-lite-dark.css
-    - packages/html_editor_enhanced/summernote-lite.min.js
-    - packages/html_editor_enhanced/jquery.min.js
-    - packages/html_editor_enhanced/assets/font/summernote.eot
-    - packages/html_editor_enhanced/assets/font/summernote.ttf
-    - packages/html_editor_enhanced/assets/font/summernote.woff
-    - packages/html_editor_enhanced/assets/font/summernote.woff2
-    - packages/html_editor_enhanced/assets/plugins/summernote-at-mention/summernote-at-mention.js
+    - assets/
+#  assets:
+#    - packages/html_editor_enhanced/summernote.html
+#    - packages/html_editor_enhanced/summernote-no-plugins.html
+#    - packages/html_editor_enhanced/summernote-lite.min.css
+#    - packages/html_editor_enhanced/summernote-lite-dark.css
+#    - packages/html_editor_enhanced/summernote-lite.min.js
+#    - packages/html_editor_enhanced/jquery.min.js
+#    - packages/html_editor_enhanced/assets/font/summernote.eot
+#    - packages/html_editor_enhanced/assets/font/summernote.ttf
+#    - packages/html_editor_enhanced/assets/font/summernote.woff
+#    - packages/html_editor_enhanced/assets/font/summernote.woff2
+#    - packages/html_editor_enhanced/assets/plugins/summernote-at-mention/summernote-at-mention.js
   # This section identifies this Flutter project as a plugin project.
   # The 'pluginClass' and Android 'package' identifiers should not ordinarily
   # be modified. They are used by the tooling to maintain consistency when

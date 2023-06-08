@@ -2571,7 +2571,7 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
                         child: StatefulBuilder(builder:
                             (BuildContext context, StateSetter setState) {
                           return AlertDialog(
-                            title: Text('Insert Table'),
+                            title: Text('插入表格'),
                             scrollable: true,
                             content: Row(
                                 mainAxisSize: MainAxisSize.min,
@@ -2599,7 +2599,7 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
-                                child: Text('Cancel'),
+                                child: Text('取消'),
                               ),
                               TextButton(
                                 onPressed: () async {
@@ -2614,7 +2614,7 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
                                   }
                                   Navigator.of(context).pop();
                                 },
-                                child: Text('OK'),
+                                child: Text('确定'),
                               )
                             ],
                           );
